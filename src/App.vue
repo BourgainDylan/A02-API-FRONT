@@ -1,12 +1,20 @@
+
 <template>
   <div id="app">
     <div id="nav">
+      <h1>CineMachin</h1>
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/order">Reservation</router-link> |
+      <router-link to="/Rooms">Salles</router-link> |
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+
+
+</script>
 
 <style lang="scss">
 #app {
@@ -29,4 +37,5 @@
     }
   }
 }
+
 </style>
