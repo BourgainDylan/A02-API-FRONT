@@ -2,16 +2,12 @@
 <template>
   <div class="about">
     <h1>Salles</h1>
-
         <div v-if="RoomActive1">
             <RoomPattern1 />
         </div>
-
         <div v-if="RoomActive2" >
             <RoomPattern2 />
         </div>
-        
- 
         <button v-bind:class="{active: IsActive1}" @click="RoomIsActive1()">La voie lactée</button>
         <button v-bind:class="{active: IsActive2}" @click="RoomIsActive2()">Orion</button>
 
@@ -40,8 +36,6 @@ export default {
         RoomIsActive1(){
             this.RoomActive1 =true;
             this.RoomActive2 =false;
-
-
             this.IsActive1 = true;
             this.IsActive2= false
 
@@ -49,8 +43,6 @@ export default {
         RoomIsActive2(){
             this.RoomActive1 =false;
             this.RoomActive2 =true;
-
-
             this.IsActive2 = true;
             this.IsActive1= false
         }
@@ -59,11 +51,9 @@ export default {
     RoomPattern1,
     RoomPattern2,
 
-   
   },
 
 }
-
 </script>
 
 <style scoped>
