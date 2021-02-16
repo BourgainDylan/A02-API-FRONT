@@ -34,7 +34,19 @@
           class="roomPlaces"
           v-bind:key="'A' + id"
         >
-          <input type="checkbox" value="" />
+          <input 
+          type="checkbox" 
+          style='visibility:hidden'
+          :id="Rooms2"
+          :value="Rooms2" 
+          v-model="checkPlaces"
+   
+          />
+          <label @click="placesChecked()" v-bind:for="Rooms2">
+            <i  class="fas fa-chair notif"></i>
+              <div class="notif"></div>
+        
+          </label>
         </div>
         <p class="room-title">{{ rooms2 }}</p>
       </div>
@@ -58,7 +70,7 @@ export default {
       isRoom2: false,
       lastName:"",
       firstName:"",
-      places: ["/api/places/1"],
+      checkPlaces: [],
       
       
     };
@@ -97,11 +109,12 @@ export default {
                 data: {
                     firstName: this.firstName,
                     lastName: this.lastName,
-                    places :this.places
+                    places :this.checkPlaces
 
                     }
+                    
     });
-        console.log(data)
+     
     },
 
  
@@ -115,11 +128,31 @@ export default {
       }
     },
 
-    addPlaces(){
-        
-    }
+    
+    //   checkboxWatch() {
+    //           const checkbox = document.getElementsByTagName('input');
+    //             for (let i = 0; i < checkbox.length; i++) {
+    //               if(checkbox[i].checked){
+    //                 return true
+    //               }else{
+    //                 return false
+    //               }
+    //             }
+    //         },
+    // placesChecked(){
+    //   const notif = document.querySelector('notif');
+    //   if(this.checkboxWatch()){
+    //     notif.ClassList.add('notif-check')
+    //   }
+    //     console.log(this.checkboxWatch())
+    // },
+    
+   
   },
-  computed: {},
+  computed: {
+      
+  
+  },
   mounted() {
         this.getRooms1();
         this.getRooms2();
@@ -128,6 +161,7 @@ export default {
   //   formOrder
   // }
 };
+
 </script>
 
 <style scoped>
@@ -193,4 +227,17 @@ export default {
   letter-spacing: 5px;
   font-size: 30px;
 }
+
+/* 
+.notif{
+  background-color:white;
+  width:20px;
+  height:20px;
+}
+.notif-check{
+  background:green;
+}
+.notif-not-check{
+  background:white;
+} */
 </style>
