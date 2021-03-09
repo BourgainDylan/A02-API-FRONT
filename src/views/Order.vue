@@ -6,6 +6,7 @@
       <input v-model="lastName"  type="text" placeholder="inserez votre prénom"  />
       <input disabled type="text" :value="room.name" />
       <p class="room-title">{{ room.name }}</p>
+       <button >Reservez</button>
     </form>
       <!-- places room -->
       <div class="room1">
@@ -48,12 +49,12 @@
           </div>
       </div>
     </div>
-        <button @click="ActiveModal">Reservez</button>
-        <div v-if="isModal">
+       
+        <!-- <div v-if="isModal">
           <div class="modal">
-              Reservation faite !
+              Reservation faites
           </div>
-        </div>
+        </div> -->
   </div>
 </template>
 <script>
@@ -69,7 +70,7 @@ export default {
       checkPlaces: [],
       placesStateRoom1:[],
       placesStateRoom2:[],
-      isModal:false
+      isModal:false,
     };
   },
   methods: {
@@ -84,6 +85,8 @@ export default {
           places : this.checkPlaces
         }
       });
+
+     
     },
       getPlacesOrdered1(){
           axios
@@ -100,7 +103,7 @@ export default {
               console.log(error)
 
           })
-          this.fetchRoom(this.orderMovie.roomId)
+           this.fetchRoom(this.orderMovie.roomId)
       },
        getPlacesOrdered2(){
           axios
@@ -116,7 +119,8 @@ export default {
           .catch(error=>{
               console.log(error)
           })
-          this.fetchRoom(this.orderMovie.roomId)
+           this.fetchRoom(this.orderMovie.roomId)
+          
       },
        removeModal(){
         this.isModal= false 
@@ -125,24 +129,20 @@ export default {
           this.isModal = true
           setTimeout(this.removeModal,4000)
       },
-     
-  
 
   }
   ,
   computed: {
-    ...mapState(['room', 'orderMovie'])
-  },
+    ...mapState(['room', 'orderMovie']),
+  
   mounted(){
+    this.fetchRoom(this.orderMovie.roomId),
     this.getPlacesOrdered1(),
     this.getPlacesOrdered2()
-
-  
-   
+    
   },
-
 }
-
+}
 </script>
 
 <style scoped>
@@ -228,14 +228,4 @@ export default {
   top:20%;
   left:20%;
 }
-
-
 </style>
-
-<!-- <div
-          v-for="placeId in room.places"
-          class="roomPlaces"
-          :key="placeId"
-        >
-          <input v-model="checkPlaces" :value="placeId" type="checkbox"  />
-        </div> -->
