@@ -5,24 +5,55 @@
       <input v-model="firstName" type="text" placeholder="inserez votre nom"  />
       <input v-model="lastName"  type="text" placeholder="inserez votre prénom"  />
       <input disabled type="text" :value="room.name" />
-      <button>Reservez</button>
-    </form>
-
-    <div class="room-container" v-if="room.name">
-      <!-- title room -->
       <p class="room-title">{{ room.name }}</p>
-
+    </form>
       <!-- places room -->
       <div class="room1">
-        <div
-          v-for="placeId in room.places"
-          class="roomPlaces"
-          :key="placeId"
-        >
-          <input v-model="checkPlaces" :value="placeId" type="checkbox"  />
+        <div v-if="room.name == 'Voie Lactée'">
+          <div v-for="(placeStateRoom1, idplace1) in placesStateRoom1" :key=idplace1>
+              <p>{{placeStateRoom1}}-{{idplace1 +1}}</p>
+              <div v-if="placeStateRoom1 == true">
+                <input id="checkbox" type="checkbox"  disabled>
+                  <label  for="checkbox">
+                  <div class="checkboxReserved" >
+                  </div>
+                  </label>
+              </div>
+              <div v-if="placeStateRoom1 == false">
+                <input :value="`/api/places/${idplace1}`" v-model="checkPlaces"  id="checkbox" type="checkbox"  >
+                <label  for="checkbox">
+                  <div class="checkboxNotReserved" >
+                  </div>
+                </label>
+              </div>
+            </div>
         </div>
+      <div v-if="room.name == 'Orion'">
+        <div v-for="(placeStateRoom2, idplace2) in placesStateRoom2" :key=idplace2>
+            <p>{{placeStateRoom2}}-{{idplace2 +1}}</p>
+            <div v-if="placeStateRoom2 == true">
+              <input id="checkbox" type="checkbox"  disabled>
+                <label  for="checkbox">
+                <div class="checkboxReserved" >
+                </div>
+                </label>
+            </div>
+            <div v-if="placeStateRoom2 == false">
+              <input :value="`/api/places/${idplace2}`" v-model="checkPlaces" id="checkbox" type="checkbox"  >
+              <label  for="checkbox">
+                <div class="checkboxNotReserved" >
+                </div>
+              </label>
+            </div>
+          </div>
       </div>
     </div>
+        <button @click="ActiveModal">Reservez</button>
+        <div v-if="isModal">
+          <div class="modal">
+              Reservation faite !
+          </div>
+        </div>
   </div>
 </template>
 <script>
@@ -36,6 +67,9 @@ export default {
       lastName:"",
       firstName:"",
       checkPlaces: [],
+      placesStateRoom1:[],
+      placesStateRoom2:[],
+      isModal:false
     };
   },
   methods: {
@@ -51,14 +85,63 @@ export default {
         }
       });
     },
-  },
+      getPlacesOrdered1(){
+          axios
+          .get('http://localhost:8000/api/rooms/1/places?page=1')
+          .then(response =>{
+
+              const places = response.data['hydra:member'];
+              
+              for (let i = 0; i < places.length; i++) {
+                  this.placesStateRoom1[i] = places[i].isReserved
+              }
+          })
+          .catch(error=>{
+              console.log(error)
+
+          })
+          this.fetchRoom(this.orderMovie.roomId)
+      },
+       getPlacesOrdered2(){
+          axios
+          .get('http://localhost:8000/api/rooms/2/places?page=1')
+          .then(response =>{
+
+              const places = response.data['hydra:member'];
+              
+              for (let i = 0; i < places.length; i++) {
+                  this.placesStateRoom2[i] = places[i].isReserved
+              }
+          })
+          .catch(error=>{
+              console.log(error)
+          })
+          this.fetchRoom(this.orderMovie.roomId)
+      },
+       removeModal(){
+        this.isModal= false 
+      },
+      ActiveModal(){
+          this.isModal = true
+          setTimeout(this.removeModal,4000)
+      },
+     
+  
+
+  }
+  ,
   computed: {
     ...mapState(['room', 'orderMovie'])
   },
-  mounted() {
-    this.fetchRoom(this.orderMovie.roomId);
-  }
-};
+  mounted(){
+    this.getPlacesOrdered1(),
+    this.getPlacesOrdered2()
+
+  
+   
+  },
+
+}
 
 </script>
 
@@ -125,4 +208,34 @@ export default {
   letter-spacing: 5px;
   font-size: 30px;
 }
+
+.checkboxReserved{
+    width:10px;
+    height:10px;
+    background-color:red
+}
+.checkboxNotReserved{
+  width:10px;
+    height:10px;
+    background-color:green
+}
+
+.modal{
+  width:300px;
+  padding:10px;
+  background:white;
+  position:absolute;
+  top:20%;
+  left:20%;
+}
+
+
 </style>
+
+<!-- <div
+          v-for="placeId in room.places"
+          class="roomPlaces"
+          :key="placeId"
+        >
+          <input v-model="checkPlaces" :value="placeId" type="checkbox"  />
+        </div> -->

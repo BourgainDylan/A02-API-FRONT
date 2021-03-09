@@ -1,26 +1,44 @@
 
 <template>
-    <div class="Rooms">
+    <div class="rooms">
         <h1>Salles</h1>
-            <div v-if="isActive1">
+            <div class="RoomsContainer1" v-if="isActive1">
                     <div v-for="(placeStateRoom1, idplace1) in placesStateRoom1" :key=idplace1>
-                        <p>{{placeStateRoom1}}-{{idplace1 + 1}}</p>
-                        <div v-if="placeStateRoom1 == true">
-                            <p class="red">PlACE RESERVE</p>
-                        </div>
-                        <div v-if="placeStateRoom1 == false">
-                            <p class="green">PlACE NON RESERVE</p>
+                        <div>
+                            <p>{{placeStateRoom1}}-{{idplace1 + 1}}</p>
+                            <div v-if="placeStateRoom1 == true">
+                                <input id="checkbox" type="checkbox" hidden disabled>
+                                <label  for="checkbox">
+                                    <div class="checkboxReserved" >
+                                    </div>
+                                </label>
+                            </div>
+                            <div v-if="placeStateRoom1 == false">
+                                <input id="checkbox"  type="checkbox" hidden checked disabled>
+                                <label  for="checkbox">
+                                    <div class="checkboxNotReserved" >
+                                    </div>
+                                </label>
+                            </div>
                         </div>
                     </div>
             </div>
-            <div v-if="isActive2">
+            <div class="RoomsContainer2" v-if="isActive2">
                     <div v-for="(placeStateRoom2, idplace2) in placesStateRoom2" :key=idplace2>
                         <p>{{placeStateRoom2}}-{{idplace2 + 1}} </p>
                         <div v-if="placeStateRoom2 == true">
-                            <p class="red"> PLACE RESERVE </p>
+                            <input id="checkbox" type="checkbox" hidden disabled>
+                            <label for=checkbox>
+                                    <div class="checkboxReserved" >
+                                    </div>
+                            </label>
                         </div>
                         <div v-if="placeStateRoom2 == false">
-                            <p class="green">PlACE NON RESERVE</p>
+                             <input id="checkbox" type="checkbox" hidden checked disabled>
+                              <label for=checkbox>
+                                    <div class="checkboxNotReserved" >
+                                    </div>
+                                </label>
                         </div>
                     </div>
             </div>
@@ -75,7 +93,6 @@ export default {
         },
           getPlacesOrdered2(){
             axios
-            
             .get('http://localhost:8000/api/rooms/2/places?page=1')
             .then(response =>{
                 const places = response.data['hydra:member'];
@@ -116,15 +133,28 @@ export default {
 }
 </script>
 
-<style scoped>
+<style  scoped>
   .active{
       color:green;
   }
 
-    .red{
-        color:red
-    }
-    .green{
-        color:green
-    }
+.checkboxNotReserved{
+    width:10px;
+    height:10px;
+    background-color:green
+}
+
+.checkboxReserved{
+    width:10px;
+    height:10px;
+    background-color:red
+}
+
+.RoomsContainer1, .RoomsContainer2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 </style>
