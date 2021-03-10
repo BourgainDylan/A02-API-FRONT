@@ -14,7 +14,7 @@
         <div class="container__elementTop">
           <p><span class="container__StrongElement">Titre :</span> {{movie.titre}}</p>
           <p><span class="container__StrongElement">Date :</span> {{movie.date}}</p>
-          <p><span class="container__StrongElement">Durée :</span> {{movie.time}}</p>
+          <p><span class="container__StrongElement">Durée :</span> {{movie.time}} min</p>
           <p><span class="container__StrongElement">Genre :</span> {{movie.gender}}</p>
         </div>
         <div class="container__elementBot">
@@ -22,12 +22,15 @@
         </div>
       </div>
     </div>
+  
   </div>
+
+
  
 </template>
 
 <script>
-
+ 
   import {mapActions, mapState} from 'vuex'
   export default {
     name: 'Home',
@@ -38,8 +41,8 @@
     },
     methods: {
       ...mapActions(['fetchMovie','setOrderMovie']),
-      async onClick() {
-        await this.fetchMovie('422')
+        async onClick() {
+        await this.fetchMovie('422');
         await this.fetchMovie('550');
       },
       order(movie) {
@@ -68,7 +71,7 @@
     margin:auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+   justify-content: space-evenly;;
     align-items: center;
     height: 80vh;
 
@@ -138,7 +141,6 @@
       flex-direction: column;
       align-items: flex-start;
       margin-left:30px;
-      width:45%;
       font-family: 'Rajdhani', sans-serif;
       font-size:18px;
       letter-spacing: 1px;

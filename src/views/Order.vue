@@ -1,54 +1,44 @@
 <template>
   <div class="order">
-    <form class="form" @submit.prevent="postOrder()" method="POST">
-      <input disabled type="text" :value="orderMovie.titre" />
-      <input v-model="firstName" type="text" placeholder="inserez votre nom"  />
-      <input v-model="lastName"  type="text" placeholder="inserez votre prénom"  />
-      <input disabled type="text" :value="room.name" />
-      <p class="room-title">{{ room.name }}</p>
-       <button >Reservez</button>
-    </form>
-      <!-- places room -->
-      <div class="room1">
-        <div v-if="room.name == 'Voie Lactée'">
-          <div v-for="(placeStateRoom1, idplace1) in placesStateRoom1" :key=idplace1>
-              <p>{{placeStateRoom1}}-{{idplace1 +1}}</p>
-              <div v-if="placeStateRoom1 == true">
-                <input id="checkbox" type="checkbox"  disabled>
-                  <label  for="checkbox">
-                  <div class="checkboxReserved" >
+      <div class="order__container-form">
+        <form class="order__form" @submit.prevent="postOrder()" method="POST">
+          <input class="order__input" disabled type="text" :value="orderMovie.titre" />
+          <input class="order__input" v-model="firstName" type="text" placeholder="Nom"  />
+          <input class="order__input" v-model="lastName"  type="text" placeholder="Prénom"  />
+          <!-- <p class="order__room-title">{{ room.name }}</p> -->
+          <button class="order__input">Reservez</button>
+        </form>
+          <!-- places room -->
+          <div class="order__room1">
+        
+                <div v-if="room.name == 'Voie Lactée'">
+                  <div v-for="(place, placeid) in placesRoom1" :key=placeid>
+                      
+                    <div v-if="place.isReserved == true">
+                      <input id="checkboxreserved" type="checkboxreserved" disabled>
+                    </div>
+
+                    <div v-if="place.isReserved == false">
+                      <input :value="`/api/places/${place.id}`" v-model="checkPlaces"  id="checkboxNotReserved" type="checkbox"  >   
+                    </div>
                   </div>
-                  </label>
               </div>
-              <div v-if="placeStateRoom1 == false">
-                <input :value="`/api/places/${idplace1}`" v-model="checkPlaces"  id="checkbox" type="checkbox"  >
-                <label  for="checkbox">
-                  <div class="checkboxNotReserved" >
-                  </div>
-                </label>
+              
+
+            <div v-if="room.name == 'Orion'">
+              <div v-for="(place, placeid) in placesRoom2" :key=placeid>
+                <div v-if="place.isReserved == true">
+                  <input id="checkboxreserved" type="checkbox" disabled >
+                </div>
+                
+                <div v-if="place.isReserved == false">
+                  <input :value="`/api/places/${place.id}`" v-model="checkPlaces"  id="checkboxNotReserved" type="checkbox">
+                </div>
               </div>
             </div>
-        </div>
-      <div v-if="room.name == 'Orion'">
-        <div v-for="(placeStateRoom2, idplace2) in placesStateRoom2" :key=idplace2>
-            <p>{{placeStateRoom2}}-{{idplace2 +1}}</p>
-            <div v-if="placeStateRoom2 == true">
-              <input id="checkbox" type="checkbox"  disabled>
-                <label  for="checkbox">
-                <div class="checkboxReserved" >
-                </div>
-                </label>
-            </div>
-            <div v-if="placeStateRoom2 == false">
-              <input :value="`/api/places/${idplace2}`" v-model="checkPlaces" id="checkbox" type="checkbox"  >
-              <label  for="checkbox">
-                <div class="checkboxNotReserved" >
-                </div>
-              </label>
-            </div>
+
           </div>
       </div>
-    </div>
        
         <!-- <div v-if="isModal">
           <div class="modal">
@@ -56,6 +46,7 @@
           </div>
         </div> -->
   </div>
+  
 </template>
 <script>
 import axios from "axios";
@@ -68,8 +59,8 @@ export default {
       lastName:"",
       firstName:"",
       checkPlaces: [],
-      placesStateRoom1:[],
-      placesStateRoom2:[],
+      placesRoom1: [],
+      placesRoom2: [],
       isModal:false,
     };
   },
@@ -83,6 +74,7 @@ export default {
           firstName: this.firstName,
           lastName: this.lastName,
           places : this.checkPlaces
+         
         }
       });
 
@@ -93,84 +85,144 @@ export default {
           .get('http://localhost:8000/api/rooms/1/places?page=1')
           .then(response =>{
 
-              const places = response.data['hydra:member'];
-              
-              for (let i = 0; i < places.length; i++) {
-                  this.placesStateRoom1[i] = places[i].isReserved
-              }
+               this.placesRoom1 = response.data['hydra:member'];
+                console.log(this.placesRoom1)
           })
           .catch(error=>{
               console.log(error)
-
           })
-           this.fetchRoom(this.orderMovie.roomId)
+          this.fetchRoom(this.orderMovie.roomId)
       },
        getPlacesOrdered2(){
           axios
           .get('http://localhost:8000/api/rooms/2/places?page=1')
           .then(response =>{
 
-              const places = response.data['hydra:member'];
+               this.placesRoom2 = response.data['hydra:member'];
               
-              for (let i = 0; i < places.length; i++) {
-                  this.placesStateRoom2[i] = places[i].isReserved
-              }
           })
           .catch(error=>{
               console.log(error)
           })
-           this.fetchRoom(this.orderMovie.roomId)
-          
+         this.fetchRoom(this.orderMovie.roomId)
       },
-       removeModal(){
-        this.isModal= false 
-      },
-      ActiveModal(){
-          this.isModal = true
-          setTimeout(this.removeModal,4000)
-      },
+      //  removeModal(){
+      //   this.isModal= false 
+      // },
+      // ActiveModal(){
+      //     this.isModal = true
+      //     setTimeout(this.removeModal,4000)
+      // },
 
   }
   ,
-  computed: {
-    ...mapState(['room', 'orderMovie']),
-  
-  mounted(){
-    this.fetchRoom(this.orderMovie.roomId),
-    this.getPlacesOrdered1(),
-    this.getPlacesOrdered2()
+    computed: {
+      ...mapState(['room', 'orderMovie']),
+
+    },
+    beforeMount(){
+      this.fetchRoom(this.orderMovie.roomId)
+    },
     
-  },
-}
-}
+    mounted(){
+      this.getPlacesOrdered1(),
+      this.getPlacesOrdered2()
+    },
+
+  }
 </script>
 
-<style scoped>
-.form {
+<style lang="scss" scoped>
+
+.order {
+
+  width: 100%;
+  height: 85vh;
   display: flex;
-  align-items: center;
-  flex-direction: column;
   justify-content: center;
-  height: 30vh;
+  align-items: center;
+    &__form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+   
+    }
+
+    &__container-form{
+        width:40%;
+        height:70%;
+        margin:auto;
+        z-index: 10;
+        position:absolute;
+            display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    }
+
+    &__container-form:before{
+    position:absolute;
+    content:'';
+    top:0;
+    left:0;
+    width:100%;
+    z-index: -10;
+    height:100%;
+    opacity:0.4;
+    background-color:black;
+    border-radius:10px;
+      
+    }
+
+    &__input {
+    margin-top: 20px;
+    padding: 20px;
+    opacity:0.8;
+    letter-spacing: 2px;
+    color:rgb(133, 15, 15);
+    font-weight: bolder;
+    outline: none;
+    background: #fffcf6;
+    text-decoration: none;
+    border-color: transparent;
+    text-align: center;
+    font-variant: small-caps;
+   
+    }
+
+    ::placeholder { 
+    color: rgb(133, 15, 15);
+    padding: 10px;
+    letter-spacing: 2px;
+    font-weight: 600;
+  
+    }
+
+
+    &__room-title {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    color: white;
+    font-variant: small-caps;
+    letter-spacing: 5px;
+    font-size: 30px;
+  }
+
+  &__room1,
+  &__room2 {
+    display: flex;
+    align-items: center;
+    width: 40%;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
 }
 
-.form input {
-  margin-top: 20px;
-  padding: 10px;
-  letter-spacing: 2px;
 }
 
-.form select {
-  margin-top: 20px;
-  padding: 5px;
-  letter-spacing: 2px;
-}
-
-.form button {
-  margin-top: 20px;
-  padding: 10px;
-  letter-spacing: 2px;
-}
 .room-container {
   display: flex;
   align-items: center;
@@ -184,48 +236,20 @@ export default {
   flex-direction: column;
 }
 
-.room1,
-.room2 {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  flex-wrap: wrap;
-  position: relative;
-}
 .roomPlaces {
   margin: 5px;
 }
 
-.room-title {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  color: white;
-  font-variant: small-caps;
-  letter-spacing: 5px;
-  font-size: 30px;
-}
 
-.checkboxReserved{
-    width:10px;
-    height:10px;
-    background-color:red
-}
-.checkboxNotReserved{
-  width:10px;
-    height:10px;
-    background-color:green
-}
 
-.modal{
-  width:300px;
-  padding:10px;
-  background:white;
-  position:absolute;
-  top:20%;
-  left:20%;
-}
+
+
+// .modal{
+//   width:300px;
+//   padding:10px;
+//   background:white;
+//   position:absolute;
+//   top:20%;
+//   left:20%;
+// }
 </style>
