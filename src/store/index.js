@@ -44,7 +44,7 @@ export default new Vuex.Store({
             time:     data.runtime,
             gender:   data.genres[0]['name'],
             img:      data.poster_path,
-            roomId:   context.state.movieList.length ? '1' : '2',
+            roomId:   context.state.movieList.length ? '2' : '1',
             id:       data.id,
 
           })

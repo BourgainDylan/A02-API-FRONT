@@ -16,6 +16,7 @@
           <p><span class="container__StrongElement">Date :</span> {{movie.date}}</p>
           <p><span class="container__StrongElement">Durée :</span> {{movie.time}} min</p>
           <p><span class="container__StrongElement">Genre :</span> {{movie.gender}}</p>
+          <p><span class="container__StrongElement">salle :</span> {{movie.roomId}}</p>
         </div>
         <div class="container__elementBot">
           <p>{{movie.overview}}</p>
@@ -44,6 +45,8 @@
         async onClick() {
         await this.fetchMovie('422');
         await this.fetchMovie('550');
+       
+       
       },
       order(movie) {
         this.setOrderMovie(movie)

@@ -2,9 +2,11 @@
 <template>
   <div id="app">
     <div id="nav">
-      <h1>CineMachin</h1>
-         <router-link to="/">Home</router-link> 
+      <div id="navigation">
+        <img class="logo" src="./assets/img/logo.svg">
+        <router-link to="/">Home</router-link> 
         <router-link to="/Rooms">Salles</router-link> 
+      </div>
         <router-view/>
     </div>
   </div>
@@ -53,16 +55,33 @@ body::before{
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-  height:10vh;
+.logo{
+  width:400px;
+}
 
+#nav {
+
+  height:10vh;
+  font-family: 'Rajdhani', sans-serif;
+
+#navigation{
+    display: flex;
+    align-items: center;
+    justify-content: unset;
+}
   a {
     font-weight: bold;
-    color: #2c3e50;
+    text-decoration: none;
+    color: #FFD600;
+    margin-left:40px;
+    font-variant: small-caps;
+    letter-spacing: 2px;
+    font-size:30px;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: #ffffff;
+      transform:scale(1.2);
+      transition: ease all 300ms;
     }
   }
 }

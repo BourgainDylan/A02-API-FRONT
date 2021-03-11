@@ -179,37 +179,39 @@ export default {
 
 .checkboxNotReserved{
    
-    background-color:#FFA800;
+    background-color:#7fc47c;
     border-radius:2px;
 }
 
 .checkboxReserved{
  
-    background-color:#7E6F51;
+    background-color:#ff3a08;
     border-radius:2px;
 }
 
 
     .rooms{
-        padding:20px;
+      
         font-family: 'Rajdhani', sans-serif;
         height: 40vh;
         font-family: "Rajdhani", sans-serif;
         display: flex;
+
         &__ViewRoom{
-        display: flex;
-        align-items: center;
-        justify-content: SPACE-AROUND;
-        flex-direction: column-reverse;
-        height: 300px;
-        flex-wrap: wrap;
-        width: 200px;
-        margin: auto;
+       display: flex;
+    align-items: center;
+    justify-content: SPACE-AROUND;
+    flex-direction: column;
+    height: 200px;
+    flex-wrap: wrap;
+    width: 500px;
+    margin: auto;
+        
         }
     &__Title{
         position:absolute;
         top:0;
-        left:0;
+        right:0;
         text-align:left;
         color:white;
         padding:30px;
@@ -222,6 +224,7 @@ export default {
     &__ViewRoom div{
         margin-bottom:20px;
         width:20px;
+        box-shadow: -3px -3px 20px 1px rgba(0,0,0,0.26);
         height:20px;
     }
     &__container{
