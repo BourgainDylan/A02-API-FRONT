@@ -45,8 +45,7 @@
         async onClick() {
         await this.fetchMovie('422');
         await this.fetchMovie('550');
-       
-       
+          
       },
       order(movie) {
         this.setOrderMovie(movie)
@@ -76,8 +75,7 @@
     flex-direction: column;
    justify-content: space-evenly;;
     align-items: center;
-    height: 80vh;
-
+   
 
     &__button{
       padding:8px;
@@ -124,7 +122,7 @@
     }
 
     &_img{
-      width:150px;
+      width:130px;
     }
     
     &_imgButton{
@@ -154,15 +152,15 @@
     &__StrongElement{
       font-weight: 800;
       font-variant: small-caps;
-      font-size: 25px;
+      font-size: 18px;
     }
     &__elementBot{
       border-top:solid 5px #FFD600;
       margin-top:30px;
          padding: 10px;
-      font-size:14px;
+      font-size:10px;
       text-align: left;
-      width:60%;
+     
     }
   }
   

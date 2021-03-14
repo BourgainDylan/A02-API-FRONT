@@ -232,7 +232,7 @@ export default {
         position:absolute;
         color:white;
         width:100%;
-        height:40%;
+        height:30%;
         bottom:0;
         left:0;
         box-shadow: 2px -9px 46px 1px rgba(15, 15, 15, 0.55);
@@ -315,7 +315,7 @@ export default {
     }
 
     &__MovieImg{
-        width:300px;
+        width:200px;
         border-radius: 10px;
         margin-top: -100px;
         margin-right: 20px;

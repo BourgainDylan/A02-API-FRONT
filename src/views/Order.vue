@@ -65,16 +65,16 @@
        
          <div v-if="isModal">
           <div class="order__modal">
-            <p class="order__warningNotif" v-if="lastName.length < 6">
+            <p class="order__warningNotif" v-if="lastName.length < 4">
               {{error1}}
             </p>
-             <p class="order__warningNotif" v-if="firstName.length < 6">
+             <p class="order__warningNotif" v-if="firstName.length < 4">
               {{error2}}
             </p>
              <p class="order__warningNotif" v-if="checkPlaces.length < 1">
               {{error3}}
             </p>
-            <p class="order__ConfirmNotif" v-else-if="lastName.length >= 6 && firstName.length >= 6 && checkPlaces.length >= 1">
+            <p class="order__ConfirmNotif" v-else-if="lastName.length >= 4 && firstName.length >= 4 && checkPlaces.length >= 1">
               {{notifSubmit}}
               
             </p>
@@ -97,8 +97,8 @@ export default {
       placesRoom1: [],
       placesRoom2: [],
       isModal:false,
-      error1: 'Veuillez entrer un nom avec au moins 6 caracthères',
-      error2: 'Veuillez entrer un prénom au moins 6 caracthères',
+      error1: 'Veuillez entrer un nom avec au moins 4 caractères',
+      error2: 'Veuillez entrer un prénom au moins 4 caractères',
       error3: 'Veuillez choisir au moins une place',
       notifSubmit: 'vos places ont été reservées'
     };
@@ -116,8 +116,7 @@ export default {
          
         }
       });
-
-     
+      
     },
       getPlacesOrdered1(){
           axios
@@ -160,6 +159,7 @@ export default {
       ...mapState(['room', 'orderMovie']),
 
     },
+    
     beforeMount(){
       this.fetchRoom(this.orderMovie.roomId)
     },
@@ -189,7 +189,7 @@ label{
 .order {
 
   width: 100%;
-  height: 85vh;
+      height: 75vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -204,7 +204,7 @@ label{
     }
 
     &__container-form{
-      width:40%;
+      width:70%;
       height:70%;
       margin:auto;
       z-index: 10;

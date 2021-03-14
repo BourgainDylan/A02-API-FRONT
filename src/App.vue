@@ -6,6 +6,7 @@
         <img class="logo" src="./assets/img/logo.svg">
         <router-link to="/">Home</router-link> 
         <router-link to="/Rooms">Salles</router-link> 
+
       </div>
         <router-view/>
     </div>

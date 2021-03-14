@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Order from '../views/Order.vue';
 import Rooms from '../views/Rooms.vue';
 
+
 Vue.use(VueRouter);
 
 const routes = [
